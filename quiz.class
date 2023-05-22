@@ -1,0 +1,77 @@
+abstract class Pelanggan {
+    protected String nama;
+    protected double nominalAwal;
+
+    public Pelanggan(String nama, double nominalAwal) {
+        this.nama = nama;
+        this.nominalAwal = nominalAwal;
+    }
+
+    public abstract double hitungDiskon();
+    public abstract String jenisPelanggan();
+}
+
+class AnggotaBiasa extends Pelanggan {
+    public AnggotaBiasa(String nama, double nominalAwal) {
+        super(nama, nominalAwal);
+    }
+
+    @Override
+    public double hitungDiskon() {
+        double diskon = 0;
+        if (nominalAwal >= 300_000 && nominalAwal < 700_000) {
+            diskon = nominalAwal * 0.03;
+        } else if (nominalAwal >= 700_000 && nominalAwal < 1_200_000) {
+            diskon = nominalAwal * 0.10;
+        } else if (nominalAwal >= 1_200_000) {
+            diskon = nominalAwal * 0.15;
+        }
+        return diskon;
+    }
+
+    @Override
+    public String jenisPelanggan() {
+        return "Anggota Biasa";
+    }
+}
+
+class Member extends Pelanggan {
+    public Member(String nama, double nominalAwal) {
+        super(nama, nominalAwal);
+    }
+
+    @Override
+    public double hitungDiskon() {
+        double diskon = 0;
+        if (nominalAwal >= 300_000 && nominalAwal < 700_000) {
+            diskon = nominalAwal * 0.08;
+        } else if (nominalAwal >= 700_000 && nominalAwal < 1_200_000) {
+            diskon = nominalAwal * 0.15;
+        } else if (nominalAwal >= 1_200_000) {
+            diskon = nominalAwal * 0.20;
+        }
+        return diskon;
+    }
+
+    @Override
+    public String jenisPelanggan() {
+        return "Member";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        String namaPelanggan = "John";
+        double nominalAwal = 700_000;
+
+        Pelanggan pelanggan = new Member(namaPelanggan, nominalAwal);
+        double diskon = pelanggan.hitungDiskon();
+        double nominalYangHarusDibayar = nominalAwal - diskon;
+
+        System.out.println("Nama pelanggan: " + namaPelanggan);
+        System.out.println("Jenis pelanggan: " + pelanggan.jenisPelanggan());
+        System.out.println("Nominal awal: " + nominalAwal);
+        System.out.println("Diskon yang diterima: " + diskon);
+        System.out.println("Nominal yang harus dibayar: " + nominalYangHarusDibayar);
+    }
+}
